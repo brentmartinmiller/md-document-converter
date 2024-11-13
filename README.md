@@ -149,19 +149,23 @@ If you'd like to contribute to this project, please follow these steps:
 
 1. **Fork the repository**: Click the 'Fork' button at the top right of the GitHub page to create your own copy of the repository.
 2. **Clone the forked repository**: Use the following command to clone the repository to your local machine:
+
 ```git clone https://github.com/brentmartinmiller/md-document-converter.git```
 
 
 3. **Create a new branch**: Create a new branch for your changes:
+
 ```git checkout -b feature/your-feature-name```
 
 
 4. **Make your changes**: Implement your changes in the code.
 5. **Commit your changes**: Commit your changes with a descriptive commit message:
+
 ```git commit -m "Add your commit message here"```
 
 
 6. **Push your changes**: Push your changes to your forked repository:
+
 ```git push origin feature/your-feature-name```
 
 
