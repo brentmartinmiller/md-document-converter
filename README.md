@@ -12,31 +12,22 @@ This tool allows you to convert Markdown files to HTML, PDF, or Word documents u
 ## Installation
 
 You can install this package from npm:
-
-bash
-npm install -g md-document-converter
+```npm install -g md-document-converter```
 
 
 Alternatively, you can clone the repository and install the dependencies manually:
-
-
-
-bash
-npm install
+```npm install```
 
 
 ## CLI Commands
-
 You can also use the CLI to convert Markdown files without writing code. The CLI provides a simple way to specify the input file, output format, and additional options.
 
 ### Usage
 
-bash
-mdconvert <inputFile> [options]
+```mdconvert <inputFile> [options]```
 
 
 ### Options
-
 - -f, --format <format>: Specify the output format (html, pdf, docx).
 - -o, --output <outputPath>: Specify the output file path.
 - -c, --css <cssFile>: Path to a CSS file for styling HTML or PDF output.
@@ -45,14 +36,11 @@ mdconvert <inputFile> [options]
 ### Example
 
 To convert input.md to a PDF:
-
-bash
-mdconvert input.md -f pdf -o output/document.pdf
+```mdconvert input.md -f pdf -o output/document.pdf```
 
 
-$1
-
-typescript
+Programmatically:
+```
 import { convertMarkdown } from './dist/converter';
 import { ConversionOptions } from './dist/types';
 
@@ -80,6 +68,7 @@ convertMarkdown('input.md', options)
   .catch((error) => {
     console.error('Conversion failed:', error);
   });
+```
 
 
 ## Logging
@@ -105,9 +94,7 @@ The project defines custom error classes to handle various stages of the convers
 - **PluginError**: Thrown when a plugin operation fails.
 
 Example:
-
-typescript
-import { FileReadError } from './dist/types';
+```import { FileReadError } from './dist/types';
 
 try {
   // Some file operations
@@ -115,15 +102,14 @@ try {
   if (error instanceof FileReadError) {
     console.error('File read failed:', error.message);
   }
-}
+}```
 
 
 ## Plugins
 
 You can extend the conversion process by adding plugins that can modify the content before and after conversion.
 
-typescript
-const customPlugin: ConverterPlugin = {
+```const customPlugin: ConverterPlugin = {
   beforeConvert: async (content, options) => {
     // Modify content before conversion
     return content.replace(/foo/g, 'bar');
@@ -132,7 +118,7 @@ const customPlugin: ConverterPlugin = {
     // Perform some action after conversion
     console.log('Post-conversion action:', result);
   }
-};
+};```
 
 
 ### Plugin Hooks
@@ -143,14 +129,13 @@ const customPlugin: ConverterPlugin = {
 ## Example
 
 To convert a Markdown file (input.md) to a PDF:
-
-typescript
+```
 import { convertMarkdown } from './dist/converter';
 
 convertMarkdown('input.md', { outputFormat: 'pdf' })
   .then((result) => console.log('Conversion successful:', result))
   .catch((error) => console.error('Error during conversion:', error));
-
+```
 
 ## Contributing
 
@@ -158,32 +143,20 @@ If you'd like to contribute to this project, please follow these steps:
 
 1. **Fork the repository**: Click the 'Fork' button at the top right of the GitHub page to create your own copy of the repository.
 2. **Clone the forked repository**: Use the following command to clone the repository to your local machine:
-
-   
-bash
-   git clone https://github.com/brentmartinmiller/md-document-converter.git
+```git clone https://github.com/brentmartinmiller/md-document-converter.git```
 
 
 3. **Create a new branch**: Create a new branch for your changes:
-
-   
-bash
-   git checkout -b feature/your-feature-name
+```git checkout -b feature/your-feature-name```
 
 
 4. **Make your changes**: Implement your changes in the code.
 5. **Commit your changes**: Commit your changes with a descriptive commit message:
-
-   
-bash
-   git commit -m "Add your commit message here"
+```git commit -m "Add your commit message here"```
 
 
 6. **Push your changes**: Push your changes to your forked repository:
-
-   
-bash
-   git push origin feature/your-feature-name
+```git push origin feature/your-feature-name```
 
 
 7. **Create a Pull Request**: Go to the original repository on GitHub and create a Pull Request (PR) from your branch.
