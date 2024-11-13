@@ -36,7 +36,9 @@ You can also use the CLI to convert Markdown files without writing code. The CLI
 ### Example
 
 To convert input.md to a PDF:
-```mdconvert input.md -f pdf -o output/document.pdf```
+```
+mdconvert input.md -f pdf -o output/document.pdf
+```
 
 
 Programmatically:
@@ -94,7 +96,8 @@ The project defines custom error classes to handle various stages of the convers
 - **PluginError**: Thrown when a plugin operation fails.
 
 Example:
-```import { FileReadError } from './dist/types';
+```
+import { FileReadError } from './dist/types';
 
 try {
   // Some file operations
@@ -102,14 +105,16 @@ try {
   if (error instanceof FileReadError) {
     console.error('File read failed:', error.message);
   }
-}```
+}
+```
 
 
 ## Plugins
 
 You can extend the conversion process by adding plugins that can modify the content before and after conversion.
 
-```const customPlugin: ConverterPlugin = {
+```
+const customPlugin: ConverterPlugin = {
   beforeConvert: async (content, options) => {
     // Modify content before conversion
     return content.replace(/foo/g, 'bar');
@@ -118,7 +123,8 @@ You can extend the conversion process by adding plugins that can modify the cont
     // Perform some action after conversion
     console.log('Post-conversion action:', result);
   }
-};```
+};
+```
 
 
 ### Plugin Hooks
