@@ -199,12 +199,29 @@ export async function convertMarkdown(
                   ],
                 });
                 break;
-              case 'pre':
-                paragraph = new Paragraph({
-                  text: element.textContent || '',
-                  style: 'Code',
-                });
-                break;
+                case 'pre':
+                  const codeText = element.textContent || '';
+                  const codeLines = codeText.split('\n');
+                  const codeRuns: TextRun[] = [];
+                
+                  codeLines.forEach((line, index) => {
+                    codeRuns.push(
+                      new TextRun({
+                        text: line,
+                        font: 'Courier New',
+                      })
+                    );
+                    // Add a line break after each line except the last one
+                    if (index < codeLines.length - 1) {
+                      codeRuns.push(new TextRun({ break: 1 }));
+                    }
+                  });
+                
+                  paragraph = new Paragraph({
+                    style: 'Code',
+                    children: codeRuns,
+                  });
+                  break;                
               default:
                 paragraph = new Paragraph({
                   text: element.textContent || '',
