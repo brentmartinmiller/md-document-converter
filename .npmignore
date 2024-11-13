@@ -1,0 +1,8 @@
+test/
+examples/
+.git/
+.github/
+.babelrc
+.gitignore
+*.test.js
+coverage/
