@@ -6,10 +6,13 @@ import {
   Document,
   Packer,
   Paragraph,
-  HeadingLevel,
   TextRun,
+  HeadingLevel,
   LevelFormat,
   AlignmentType,
+  IStylesOptions,
+  UnderlineType,
+  BorderStyle,
 } from 'docx';
 import { JSDOM } from 'jsdom';
 import { ConversionOptions, ConverterPlugin } from './types';
@@ -95,6 +98,146 @@ export async function convertMarkdown(
 
         const children: Paragraph[] = [];
 
+        // Define styles matching the Modern theme
+        const styles: IStylesOptions = {
+          default: {
+            document: {
+              run: {
+                font: 'Calibri',
+                size: 22, // 11pt
+                color: '000000',
+              },
+              paragraph: {
+                spacing: {
+                  after: 120,
+                },
+              },
+            },
+          },
+          paragraphStyles: [
+            {
+              id: 'Heading1',
+              name: 'Heading 1',
+              basedOn: 'Normal',
+              next: 'Normal',
+              quickFormat: true,
+              run: {
+                size: 32, // 16pt
+                bold: true,
+                color: '2E74B5', // Modern theme color
+                font: 'Calibri Light',
+              },
+              paragraph: {
+                spacing: {
+                  after: 120,
+                },
+              },
+            },
+            {
+              id: 'Heading2',
+              name: 'Heading 2',
+              basedOn: 'Normal',
+              next: 'Normal',
+              quickFormat: true,
+              run: {
+                size: 28, // 14pt
+                bold: true,
+                color: '2E74B5',
+                font: 'Calibri Light',
+              },
+              paragraph: {
+                spacing: {
+                  after: 120,
+                },
+              },
+            },
+            {
+              id: 'Heading3',
+              name: 'Heading 3',
+              basedOn: 'Normal',
+              next: 'Normal',
+              quickFormat: true,
+              run: {
+                size: 24, // 12pt
+                bold: true,
+                color: '1F4D78', // Slightly darker color
+                font: 'Calibri Light',
+              },
+              paragraph: {
+                spacing: {
+                  after: 120,
+                },
+              },
+            },
+            {
+              id: 'Normal',
+              name: 'Normal',
+              run: {
+                font: 'Calibri',
+                size: 22, // 11pt
+                color: '000000',
+              },
+            },
+            {
+              id: 'Code',
+              name: 'Code',
+              basedOn: 'Normal',
+              run: {
+                font: 'Consolas',
+                size: 20, // 10pt
+                color: '333333',
+                shading: {
+                  fill: 'EEEEEE', // Light gray background
+                },
+              },
+              paragraph: {
+                spacing: {
+                  before: 120,
+                  after: 120,
+                },
+                // 'shading' moved to 'run'
+              },
+            },
+            {
+              id: 'BlockQuote',
+              name: 'Block Quote',
+              basedOn: 'Normal',
+              next: 'Normal',
+              run: {
+                italics: true,
+                color: '666666',
+              },
+              paragraph: {
+                indent: {
+                  left: 720, // Indent by 0.5 inches
+                },
+                spacing: {
+                  before: 120,
+                  after: 120,
+                },
+                // 'border' will be applied directly to Paragraph instances
+              },
+            },
+          ],
+        };
+
+        // Create a numbering instance for ordered lists
+        const numbering = {
+          config: [
+            {
+              reference: 'numbering-reference',
+              levels: [
+                {
+                  level: 0,
+                  format: LevelFormat.DECIMAL,
+                  text: '%1.',
+                  alignment: AlignmentType.LEFT,
+                },
+              ],
+            },
+          ],
+        };
+
         body.childNodes.forEach((node) => {
           if (node.nodeType === dom.window.Node.ELEMENT_NODE) {
             const element = node as HTMLElement;
@@ -104,19 +247,19 @@ export async function convertMarkdown(
               case 'h1':
                 paragraph = new Paragraph({
                   text: element.textContent || '',
-                  heading: HeadingLevel.HEADING_1,
+                  style: 'Heading1',
                 });
                 break;
               case 'h2':
                 paragraph = new Paragraph({
                   text: element.textContent || '',
-                  heading: HeadingLevel.HEADING_2,
+                  style: 'Heading2',
                 });
                 break;
               case 'h3':
                 paragraph = new Paragraph({
                   text: element.textContent || '',
-                  heading: HeadingLevel.HEADING_3,
+                  style: 'Heading3',
                 });
                 break;
               case 'p':
@@ -145,10 +288,32 @@ export async function convertMarkdown(
                         });
                         runs.push(run);
                         break;
+                      case 'u':
+                        run = new TextRun({
+                          text: childElement.textContent || '',
+                          underline: {
+                            type: UnderlineType.SINGLE,
+                          },
+                        });
+                        runs.push(run);
+                        break;
                       case 'code':
                         run = new TextRun({
                           text: childElement.textContent || '',
-                          font: 'Courier New',
+                          font: 'Consolas',
+                          shading: {
+                            fill: 'EEEEEE',
+                          },
+                        });
+                        runs.push(run);
+                        break;
+                      case 'a':
+                        run = new TextRun({
+                          text: childElement.textContent || '',
+                          color: '0563C1',
+                          underline: {
+                            type: UnderlineType.SINGLE,
+                          },
                         });
                         runs.push(run);
                         break;
@@ -161,7 +326,10 @@ export async function convertMarkdown(
                   }
                 });
 
-                paragraph = new Paragraph({ children: runs });
+                paragraph = new Paragraph({
+                  children: runs,
+                  style: 'Normal',
+                });
                 break;
               case 'ul':
                 element.querySelectorAll('li').forEach((li) => {
@@ -170,6 +338,7 @@ export async function convertMarkdown(
                     bullet: {
                       level: 0,
                     },
+                    style: 'Normal',
                   });
                   children.push(listParagraph);
                 });
@@ -182,49 +351,55 @@ export async function convertMarkdown(
                       reference: 'numbering-reference',
                       level: 0,
                     },
+                    style: 'Normal',
                   });
                   children.push(listParagraph);
                 });
                 break;
               case 'blockquote':
                 paragraph = new Paragraph({
-                  indent: {
-                    left: 720, // Indent by 0.5 inches (720 twips)
-                  },
                   children: [
                     new TextRun({
                       text: element.textContent || '',
-                      italics: true,
                     }),
                   ],
+                  style: 'BlockQuote',
+                  border: {
+                    left: {
+                      color: '999999',
+                      space: 1,
+                      size: 6,
+                      style: BorderStyle.SINGLE,
+                    },
+                  },
                 });
                 break;
-                case 'pre':
-                  const codeText = element.textContent || '';
-                  const codeLines = codeText.split('\n');
-                  const codeRuns: TextRun[] = [];
-                
-                  codeLines.forEach((line, index) => {
-                    codeRuns.push(
-                      new TextRun({
-                        text: line,
-                        font: 'Courier New',
-                      })
-                    );
-                    // Add a line break after each line except the last one
-                    if (index < codeLines.length - 1) {
-                      codeRuns.push(new TextRun({ break: 1 }));
-                    }
-                  });
-                
-                  paragraph = new Paragraph({
-                    style: 'Code',
-                    children: codeRuns,
-                  });
-                  break;                
+              case 'pre':
+                const codeText = element.textContent || '';
+                const codeLines = codeText.split('\n');
+                const codeRuns: TextRun[] = [];
+
+                codeLines.forEach((line, index) => {
+                  codeRuns.push(
+                    new TextRun({
+                      text: line,
+                      font: 'Consolas',
+                    })
+                  );
+                  if (index < codeLines.length - 1) {
+                    codeRuns.push(new TextRun({ break: 1 }));
+                  }
+                });
+
+                paragraph = new Paragraph({
+                  style: 'Code',
+                  children: codeRuns,
+                });
+                break;
               default:
                 paragraph = new Paragraph({
                   text: element.textContent || '',
+                  style: 'Normal',
                 });
                 break;
             }
@@ -235,46 +410,7 @@ export async function convertMarkdown(
           }
         });
 
-        // Create a numbering instance for ordered lists
-        const numbering = {
-          config: [
-            {
-              reference: 'numbering-reference',
-              levels: [
-                {
-                  level: 0,
-                  format: LevelFormat.DECIMAL,
-                  text: '%1.',
-                  alignment: AlignmentType.LEFT,
-                },
-              ],
-            },
-          ],
-        };
-
-        // Create styles for code blocks
-        const styles = {
-          paragraphStyles: [
-            {
-              id: 'Code',
-              name: 'Code',
-              basedOn: 'Normal',
-              run: {
-                font: 'Courier New',
-                size: 20, // 10pt
-                color: '333333',
-              },
-              paragraph: {
-                spacing: {
-                  before: 120,
-                  after: 120,
-                },
-              },
-            },
-          ],
-        };
-
-        // Create a new Document with sections
+        // Create a new Document with the updated styles
         const doc = new Document({
           styles,
           numbering,

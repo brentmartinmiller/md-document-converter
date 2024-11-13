@@ -143,22 +143,22 @@ convertMarkdown('input.md', { outputFormat: 'pdf' })
 
 1. Fork the repository
 2. Clone your fork:
-   ```bash
-   git clone https://github.com/yourusername/md-document-converter.git
-   ```
+```bash
+git clone https://github.com/yourusername/md-document-converter.git
+```
 3. Create a feature branch:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+```bash
+git checkout -b feature/your-feature-name
+```
 4. Make your changes
 5. Commit changes:
-   ```bash
-   git commit -m "Add your commit message here"
-   ```
+```bash
+git commit -m "Add your commit message here"
+```
 6. Push to your fork:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+```bash
+git push origin feature/your-feature-name
+```
 7. Open a Pull Request
 
 Please ensure your code follows our style guidelines and includes appropriate documentation.

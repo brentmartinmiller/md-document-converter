@@ -48,8 +48,13 @@ body {
     font-style: italic;
   }
   
-  ul, ol {
+  ul {
     margin-bottom: 1em;
+  }
+
+  ol {
+    margin-bottom: 1em;
+    padding-left: 20px;
   }
   
   code {
