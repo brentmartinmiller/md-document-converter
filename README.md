@@ -1,48 +1,53 @@
 # Markdown Document Converter
 
-This tool allows you to convert Markdown files to HTML, PDF, or Word documents using TypeScript. It supports plugin-based extensions and features robust logging using [Winston](https://github.com/winstonjs/winston).
+A TypeScript-based tool for converting Markdown files to HTML, PDF, or Word documents. Features plugin-based extensions and comprehensive logging via [Winston](https://github.com/winstonjs/winston).
 
 ## Features
 
-- **Convert Markdown to Multiple Formats**: Convert Markdown files to **HTML**, **PDF**, or **Word (docx)**.
-- **Logging**: All conversion processes are logged to the console and a log file.
-- **Plugin Support**: Easily extend the conversion process with pre- and post-conversion plugins.
-- **Custom Error Handling**: Custom error classes provide detailed information when something goes wrong, making debugging easier.
+- **Multi-Format Conversion**: Transform Markdown files to HTML, PDF, or Word (docx)
+- **Comprehensive Logging**: Track all operations via console and file logging
+- **Plugin Architecture**: Extend functionality with pre- and post-conversion plugins
+- **Robust Error Handling**: Detailed error reporting for efficient debugging
 
 ## Installation
 
-You can install this package from npm:
-```npm install -g md-document-converter```
+Install via npm:
+```bash
+npm install -g md-document-converter
+```
 
+Or clone and install manually:
+```bash
+git clone https://github.com/yourusername/md-document-converter.git
+cd md-document-converter
+npm install
+```
 
-Alternatively, you can clone the repository and install the dependencies manually:
-```npm install```
+## CLI Usage
 
+Convert documents using the command-line interface:
 
-## CLI Commands
-You can also use the CLI to convert Markdown files without writing code. The CLI provides a simple way to specify the input file, output format, and additional options.
-
-### Usage
-
-```mdconvert <inputFile> [options]```
-
+```bash
+mdconvert <inputFile> [options]
+```
 
 ### Options
-- -f, --format <format>: Specify the output format (html, pdf, docx).
-- -o, --output <outputPath>: Specify the output file path.
-- -c, --css <cssFile>: Path to a CSS file for styling HTML or PDF output.
-- -h, --help: Display help for the CLI tool.
+
+- `-f, --format <format>`: Output format (html, pdf, docx)
+- `-o, --output <outputPath>`: Output file path
+- `-c, --css <cssFile>`: CSS file for HTML/PDF styling
+- `-h, --help`: Display help information
 
 ### Example
 
-To convert input.md to a PDF:
-```
+Convert to PDF:
+```bash
 mdconvert input.md -f pdf -o output/document.pdf
 ```
 
+## Programmatic Usage
 
-Programmatically:
-```
+```typescript
 import { convertMarkdown } from './dist/converter';
 import { ConversionOptions } from './dist/types';
 
@@ -64,43 +69,38 @@ const options: ConversionOptions = {
 };
 
 convertMarkdown('input.md', options)
-  .then((result) => {
-    console.log('Conversion succeeded:', result);
-  })
-  .catch((error) => {
-    console.error('Conversion failed:', error);
-  });
+  .then((result) => console.log('Conversion succeeded:', result))
+  .catch((error) => console.error('Conversion failed:', error));
 ```
-
 
 ## Logging
 
-This project uses [Winston](https://github.com/winstonjs/winston) for logging information during the conversion process.
+The project utilizes [Winston](https://github.com/winstonjs/winston) for comprehensive logging:
 
-- **Console Output**: Logs are displayed in the console.
-- **File Logs**: All logs are saved in logs/conversion.log.
-- **Log Levels**: The default log level is set to info. Errors, warnings, and informative messages are recorded to help diagnose issues.
+- **Console Output**: Real-time logging in the terminal
+- **File Logging**: Persistent logs stored in `logs/conversion.log`
+- **Log Levels**: Configurable levels for errors, warnings, and info messages
 
-Examples of log entries include:
-
+Example log entries:
+```
 2024-11-13T12:00:00 [ERROR]: FileReadError: Input file not found: input.md
 2024-11-13T12:01:00 [INFO]: Conversion succeeded. Output saved at output/document.pdf
-
+```
 
 ## Error Handling
 
-The project defines custom error classes to handle various stages of the conversion process:
+Custom error classes provide detailed error information:
 
-- **FileReadError**: Thrown when the input file cannot be found or read.
-- **ConversionError**: Thrown when the conversion process encounters an issue.
-- **PluginError**: Thrown when a plugin operation fails.
+- `FileReadError`: File access and reading issues
+- `ConversionError`: Conversion process failures
+- `PluginError`: Plugin execution problems
 
-Example:
-```
+Example usage:
+```typescript
 import { FileReadError } from './dist/types';
 
 try {
-  // Some file operations
+  // File operations
 } catch (error) {
   if (error instanceof FileReadError) {
     console.error('File read failed:', error.message);
@@ -108,34 +108,30 @@ try {
 }
 ```
 
+## Plugin System
 
-## Plugins
+Extend functionality with custom plugins:
 
-You can extend the conversion process by adding plugins that can modify the content before and after conversion.
-
-```
+```typescript
 const customPlugin: ConverterPlugin = {
   beforeConvert: async (content, options) => {
-    // Modify content before conversion
     return content.replace(/foo/g, 'bar');
   },
   afterConvert: async (result) => {
-    // Perform some action after conversion
     console.log('Post-conversion action:', result);
   }
 };
 ```
 
-
 ### Plugin Hooks
 
-- **beforeConvert(content, options)**: Modify the content before the conversion starts.
-- **afterConvert(result)**: Perform actions after the conversion is complete.
+- `beforeConvert(content, options)`: Pre-conversion content modification
+- `afterConvert(result)`: Post-conversion processing
 
-## Example
+## Quick Start
 
-To convert a Markdown file (input.md) to a PDF:
-```
+Convert a Markdown file to PDF:
+```typescript
 import { convertMarkdown } from './dist/converter';
 
 convertMarkdown('input.md', { outputFormat: 'pdf' })
@@ -145,34 +141,28 @@ convertMarkdown('input.md', { outputFormat: 'pdf' })
 
 ## Contributing
 
-If you'd like to contribute to this project, please follow these steps:
+1. Fork the repository
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/yourusername/md-document-converter.git
+   ```
+3. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. Make your changes
+5. Commit changes:
+   ```bash
+   git commit -m "Add your commit message here"
+   ```
+6. Push to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+7. Open a Pull Request
 
-1. **Fork the repository**: Click the 'Fork' button at the top right of the GitHub page to create your own copy of the repository.
-2. **Clone the forked repository**: Use the following command to clone the repository to your local machine:
-
-```git clone https://github.com/brentmartinmiller/md-document-converter.git```
-
-
-3. **Create a new branch**: Create a new branch for your changes:
-
-```git checkout -b feature/your-feature-name```
-
-
-4. **Make your changes**: Implement your changes in the code.
-5. **Commit your changes**: Commit your changes with a descriptive commit message:
-
-```git commit -m "Add your commit message here"```
-
-
-6. **Push your changes**: Push your changes to your forked repository:
-
-```git push origin feature/your-feature-name```
-
-
-7. **Create a Pull Request**: Go to the original repository on GitHub and create a Pull Request (PR) from your branch.
-
-Please ensure your code follows the project's coding guidelines and is well-documented.
+Please ensure your code follows our style guidelines and includes appropriate documentation.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License
