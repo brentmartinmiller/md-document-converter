@@ -1,0 +1,81 @@
+/* Default styles for Markdown elements */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+  
+  h2 {
+    font-size: 1.75em;
+    margin-bottom: 0.5em;
+  }
+  
+  h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  h4 {
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+  }
+  
+  h5 {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+  }
+  
+  h6 {
+    font-size: 0.875em;
+    margin-bottom: 0.5em;
+  }
+  
+  p {
+    margin-bottom: 1em;
+  }
+  
+  strong {
+    font-weight: bold;
+  }
+  
+  em {
+    font-style: italic;
+  }
+  
+  ul, ol {
+    margin-bottom: 1em;
+    padding-left: 40px;
+  }
+  
+  code {
+    font-family: monospace;
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  
+  pre code {
+    display: block;
+    padding: 10px;
+    overflow-x: auto;
+  }
+  
+  blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 10px;
+    color: #555;
+    margin-bottom: 1em;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 2em 0;
+  }
+  
