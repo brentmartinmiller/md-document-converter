@@ -2,14 +2,13 @@
     "name": "md-document-converter",
     "version": "1.0.0",
     "description": "Convert Markdown files to HTML, PDF, or Word documents with plugin support and robust logging.",
-    "main": "dist/index.js",
     "bin": {
-        "mdconvert": "./dist/cli.js"
+        "mdconvert": "./dist/src/cli.js"
     },
     "scripts": {
         "build": "tsc",
-        "start": "node dist/cli.js",
-        "test": "echo \"No tests specified\" && exit 0"
+        "start": "node dist/src/cli.js",
+        "test": "jest"
     },
     "keywords": [
         "markdown",
@@ -20,23 +19,29 @@
         "plugin",
         "typescript"
     ],
-    "author": "Martin Miller Software Consulting",
+    "author": "Brent Miller <brent@martinmiller.co>",
     "license": "MIT",
     "dependencies": {
         "commander": "^11.0.0",
-        "docx": "^9.0.3",
-        "docxtemplater": "^3.52.0",
+        "docx": "^7.7.0",
         "html-pdf": "^3.0.1",
         "jsdom": "^22.1.0",
-        "pizzip": "^3.1.7",
         "showdown": "^2.1.0",
         "winston": "^3.9.0"
     },
     "devDependencies": {
-        "@types/html-pdf": "^3.0.3",
-        "@types/jsdom": "^21.1.7",
-        "@types/node": "^20.4.2",
-        "@types/showdown": "^2.0.6",
-        "typescript": "^5.2.2"
-    }
+        "@types/html-pdf": "^3.0.1",
+        "@types/jest": "^29.5.14",
+        "@types/jsdom": "^21.1.1",
+        "@types/node": "^20.17.6",
+        "@types/showdown": "^1.9.4",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
+        "typescript": "^5.6.3"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ]
 }

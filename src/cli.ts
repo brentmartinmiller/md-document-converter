@@ -2,6 +2,7 @@
 import { Command } from 'commander';
 import { convertMarkdown } from './converter';
 import { ConversionOptions } from './types';
+import logger from './logger';
 
 const program = new Command();
 
@@ -23,8 +24,14 @@ program
       const result = await convertMarkdown(inputFile, conversionOptions);
       console.log(`Conversion successful! Output saved at ${result}`);
     } catch (error) {
-      console.error(`Conversion failed: ${(error as Error).message}`);
+      logger.error(`Conversion failed: ${(error as Error).message}`);
+      process.exit(1);
     }
   });
+
+// Display help if no arguments are provided
+if (process.argv.length < 3) {
+  program.help();
+}
 
 program.parse(process.argv);

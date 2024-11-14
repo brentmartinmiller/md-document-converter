@@ -1,0 +1,36 @@
+# Ignore node_modules (should not be published)
+node_modules/
+
+# Ignore source TypeScript files
+src/
+
+# Ignore logs directory and log files
+logs/
+*.log
+
+# Ignore styles directory if it's not needed at runtime
+styles/
+
+# Ignore configuration and project files
+tsconfig.json
+package-lock.json
+package.json (if you don't want to include it, but usually you do)
+.gitignore
+.eslintignore
+.eslintrc.js
+.prettierrc
+.prettierignore
+.npmignore
+
+# Ignore test and example directories
+test/
+tests/
+examples/
+
+# Ignore miscellaneous files
+*.ts
+*.tsx
+*.map
+*.md (if you don't want to include markdown files other than README)
+.DS_Store
+Thumbs.db

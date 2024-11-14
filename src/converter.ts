@@ -7,7 +7,6 @@ import {
   Packer,
   Paragraph,
   TextRun,
-  HeadingLevel,
   LevelFormat,
   AlignmentType,
   IStylesOptions,
@@ -50,8 +49,17 @@ export async function convertMarkdown(
       }
     }
 
-    // Convert Markdown to HTML
-    const converter = new showdown.Converter();
+    // Convert Markdown to HTML with Showdown
+    const converter = new showdown.Converter({
+      ghCompatibleHeaderId: true,
+      ghCodeBlocks: true,
+      tables: true,
+      tasklists: true,
+      simpleLineBreaks: true,
+      strikethrough: true,
+      openLinksInNewWindow: true,
+      // Add any other options as needed
+    });
     let html = converter.makeHtml(content);
 
     // Apply CSS styling
@@ -195,7 +203,6 @@ export async function convertMarkdown(
                   before: 120,
                   after: 120,
                 },
-                // 'shading' moved to 'run'
               },
             },
             {
@@ -215,7 +222,7 @@ export async function convertMarkdown(
                   before: 120,
                   after: 120,
                 },
-                // 'border' will be applied directly to Paragraph instances
+                // 'border' is applied directly to Paragraph instances
               },
             },
           ],
