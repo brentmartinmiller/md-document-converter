@@ -13,7 +13,7 @@ A TypeScript-based tool for converting Markdown files to HTML, PDF, or Word docu
 
 Install via npm:
 ```bash
-npm install -g md-document-converter
+npm i @mmsc/md-document-converter
 ```
 
 Or clone and install manually:
